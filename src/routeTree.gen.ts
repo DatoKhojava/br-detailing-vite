@@ -19,6 +19,8 @@ import { Route as HistoryImport } from './routes/history'
 import { Route as FAQImport } from './routes/FAQ'
 import { Route as ProtectedRouteImport } from './routes/_protected/route'
 import { Route as ProtectedDashboardIndexImport } from './routes/_protected/dashboard/index'
+import { Route as ProtectedDashboardListImport } from './routes/_protected/dashboard/list'
+import { Route as ProtectedDashboardCalendarImport } from './routes/_protected/dashboard/calendar'
 
 // Create Virtual Routes
 
@@ -67,6 +69,20 @@ const ProtectedDashboardIndexRoute = ProtectedDashboardIndexImport.update({
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
 
+const ProtectedDashboardListRoute = ProtectedDashboardListImport.update({
+  id: '/dashboard/list',
+  path: '/dashboard/list',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any)
+
+const ProtectedDashboardCalendarRoute = ProtectedDashboardCalendarImport.update(
+  {
+    id: '/dashboard/calendar',
+    path: '/dashboard/calendar',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any,
+)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -113,6 +129,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsAndConditionsImport
       parentRoute: typeof rootRoute
     }
+    '/_protected/dashboard/calendar': {
+      id: '/_protected/dashboard/calendar'
+      path: '/dashboard/calendar'
+      fullPath: '/dashboard/calendar'
+      preLoaderRoute: typeof ProtectedDashboardCalendarImport
+      parentRoute: typeof ProtectedRouteImport
+    }
+    '/_protected/dashboard/list': {
+      id: '/_protected/dashboard/list'
+      path: '/dashboard/list'
+      fullPath: '/dashboard/list'
+      preLoaderRoute: typeof ProtectedDashboardListImport
+      parentRoute: typeof ProtectedRouteImport
+    }
     '/_protected/dashboard/': {
       id: '/_protected/dashboard/'
       path: '/dashboard'
@@ -126,10 +156,14 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface ProtectedRouteRouteChildren {
+  ProtectedDashboardCalendarRoute: typeof ProtectedDashboardCalendarRoute
+  ProtectedDashboardListRoute: typeof ProtectedDashboardListRoute
   ProtectedDashboardIndexRoute: typeof ProtectedDashboardIndexRoute
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
+  ProtectedDashboardCalendarRoute: ProtectedDashboardCalendarRoute,
+  ProtectedDashboardListRoute: ProtectedDashboardListRoute,
   ProtectedDashboardIndexRoute: ProtectedDashboardIndexRoute,
 }
 
@@ -144,6 +178,8 @@ export interface FileRoutesByFullPath {
   '/history': typeof HistoryRoute
   '/login': typeof LoginRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/dashboard/calendar': typeof ProtectedDashboardCalendarRoute
+  '/dashboard/list': typeof ProtectedDashboardListRoute
   '/dashboard': typeof ProtectedDashboardIndexRoute
 }
 
@@ -154,6 +190,8 @@ export interface FileRoutesByTo {
   '/history': typeof HistoryRoute
   '/login': typeof LoginRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/dashboard/calendar': typeof ProtectedDashboardCalendarRoute
+  '/dashboard/list': typeof ProtectedDashboardListRoute
   '/dashboard': typeof ProtectedDashboardIndexRoute
 }
 
@@ -165,6 +203,8 @@ export interface FileRoutesById {
   '/history': typeof HistoryRoute
   '/login': typeof LoginRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/_protected/dashboard/calendar': typeof ProtectedDashboardCalendarRoute
+  '/_protected/dashboard/list': typeof ProtectedDashboardListRoute
   '/_protected/dashboard/': typeof ProtectedDashboardIndexRoute
 }
 
@@ -177,6 +217,8 @@ export interface FileRouteTypes {
     | '/history'
     | '/login'
     | '/terms-and-conditions'
+    | '/dashboard/calendar'
+    | '/dashboard/list'
     | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -186,6 +228,8 @@ export interface FileRouteTypes {
     | '/history'
     | '/login'
     | '/terms-and-conditions'
+    | '/dashboard/calendar'
+    | '/dashboard/list'
     | '/dashboard'
   id:
     | '__root__'
@@ -195,6 +239,8 @@ export interface FileRouteTypes {
     | '/history'
     | '/login'
     | '/terms-and-conditions'
+    | '/_protected/dashboard/calendar'
+    | '/_protected/dashboard/list'
     | '/_protected/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -241,6 +287,8 @@ export const routeTree = rootRoute
     "/_protected": {
       "filePath": "_protected/route.tsx",
       "children": [
+        "/_protected/dashboard/calendar",
+        "/_protected/dashboard/list",
         "/_protected/dashboard/"
       ]
     },
@@ -255,6 +303,14 @@ export const routeTree = rootRoute
     },
     "/terms-and-conditions": {
       "filePath": "terms-and-conditions.tsx"
+    },
+    "/_protected/dashboard/calendar": {
+      "filePath": "_protected/dashboard/calendar.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/dashboard/list": {
+      "filePath": "_protected/dashboard/list.tsx",
+      "parent": "/_protected"
     },
     "/_protected/dashboard/": {
       "filePath": "_protected/dashboard/index.tsx",
