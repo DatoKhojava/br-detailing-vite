@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
+import { Route as HistoryImport } from './routes/history'
 import { Route as ProtectedRouteImport } from './routes/_protected/route'
 import { Route as ProtectedDashboardIndexImport } from './routes/_protected/dashboard/index'
 
@@ -26,6 +27,12 @@ const IndexLazyImport = createFileRoute('/')()
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HistoryRoute = HistoryImport.update({
+  id: '/history',
+  path: '/history',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -64,6 +71,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedRouteImport
       parentRoute: typeof rootRoute
     }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryImport
+      parentRoute: typeof rootRoute
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -98,6 +112,7 @@ const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '': typeof ProtectedRouteRouteWithChildren
+  '/history': typeof HistoryRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof ProtectedDashboardIndexRoute
 }
@@ -105,6 +120,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '': typeof ProtectedRouteRouteWithChildren
+  '/history': typeof HistoryRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof ProtectedDashboardIndexRoute
 }
@@ -113,28 +129,37 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/_protected': typeof ProtectedRouteRouteWithChildren
+  '/history': typeof HistoryRoute
   '/login': typeof LoginRoute
   '/_protected/dashboard/': typeof ProtectedDashboardIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/dashboard'
+  fullPaths: '/' | '' | '/history' | '/login' | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/dashboard'
-  id: '__root__' | '/' | '/_protected' | '/login' | '/_protected/dashboard/'
+  to: '/' | '' | '/history' | '/login' | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/_protected'
+    | '/history'
+    | '/login'
+    | '/_protected/dashboard/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
+  HistoryRoute: typeof HistoryRoute
   LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
+  HistoryRoute: HistoryRoute,
   LoginRoute: LoginRoute,
 }
 
@@ -150,6 +175,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_protected",
+        "/history",
         "/login"
       ]
     },
@@ -161,6 +187,9 @@ export const routeTree = rootRoute
       "children": [
         "/_protected/dashboard/"
       ]
+    },
+    "/history": {
+      "filePath": "history.tsx"
     },
     "/login": {
       "filePath": "login.tsx"
