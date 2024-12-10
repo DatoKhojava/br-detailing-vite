@@ -8,7 +8,7 @@ export default function PageLayout({
   return (
     <div className="h-dvh flex flex-col justify-between">
       <Header />
-      <main className="mt-[64px] pb-8">{children}</main>
+      <main className="">{children}</main>
       <Footer />
     </div>
   );

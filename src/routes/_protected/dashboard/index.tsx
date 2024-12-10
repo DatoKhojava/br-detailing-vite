@@ -1,9 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_protected/dashboard/')({
+export const Route = createFileRoute("/_protected/dashboard/")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/_protected/dashboard/"!</div>
+  return (
+    <div>
+      <h1>Hello "/_protected/dashboard/"!</h1>
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+        Taxing Laughter: The Joke Tax Chronicles
+      </h1>
+    </div>
+  );
 }

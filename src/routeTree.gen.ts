@@ -13,8 +13,10 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TermsAndConditionsImport } from './routes/terms-and-conditions'
 import { Route as LoginImport } from './routes/login'
 import { Route as HistoryImport } from './routes/history'
+import { Route as FAQImport } from './routes/FAQ'
 import { Route as ProtectedRouteImport } from './routes/_protected/route'
 import { Route as ProtectedDashboardIndexImport } from './routes/_protected/dashboard/index'
 
@@ -23,6 +25,12 @@ import { Route as ProtectedDashboardIndexImport } from './routes/_protected/dash
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const TermsAndConditionsRoute = TermsAndConditionsImport.update({
+  id: '/terms-and-conditions',
+  path: '/terms-and-conditions',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LoginRoute = LoginImport.update({
   id: '/login',
@@ -33,6 +41,12 @@ const LoginRoute = LoginImport.update({
 const HistoryRoute = HistoryImport.update({
   id: '/history',
   path: '/history',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FAQRoute = FAQImport.update({
+  id: '/FAQ',
+  path: '/FAQ',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -71,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedRouteImport
       parentRoute: typeof rootRoute
     }
+    '/FAQ': {
+      id: '/FAQ'
+      path: '/FAQ'
+      fullPath: '/FAQ'
+      preLoaderRoute: typeof FAQImport
+      parentRoute: typeof rootRoute
+    }
     '/history': {
       id: '/history'
       path: '/history'
@@ -83,6 +104,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/terms-and-conditions': {
+      id: '/terms-and-conditions'
+      path: '/terms-and-conditions'
+      fullPath: '/terms-and-conditions'
+      preLoaderRoute: typeof TermsAndConditionsImport
       parentRoute: typeof rootRoute
     }
     '/_protected/dashboard/': {
@@ -112,16 +140,20 @@ const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '': typeof ProtectedRouteRouteWithChildren
+  '/FAQ': typeof FAQRoute
   '/history': typeof HistoryRoute
   '/login': typeof LoginRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/dashboard': typeof ProtectedDashboardIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '': typeof ProtectedRouteRouteWithChildren
+  '/FAQ': typeof FAQRoute
   '/history': typeof HistoryRoute
   '/login': typeof LoginRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/dashboard': typeof ProtectedDashboardIndexRoute
 }
 
@@ -129,22 +161,40 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/_protected': typeof ProtectedRouteRouteWithChildren
+  '/FAQ': typeof FAQRoute
   '/history': typeof HistoryRoute
   '/login': typeof LoginRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/_protected/dashboard/': typeof ProtectedDashboardIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/history' | '/login' | '/dashboard'
+  fullPaths:
+    | '/'
+    | ''
+    | '/FAQ'
+    | '/history'
+    | '/login'
+    | '/terms-and-conditions'
+    | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/history' | '/login' | '/dashboard'
+  to:
+    | '/'
+    | ''
+    | '/FAQ'
+    | '/history'
+    | '/login'
+    | '/terms-and-conditions'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/_protected'
+    | '/FAQ'
     | '/history'
     | '/login'
+    | '/terms-and-conditions'
     | '/_protected/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -152,15 +202,19 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
+  FAQRoute: typeof FAQRoute
   HistoryRoute: typeof HistoryRoute
   LoginRoute: typeof LoginRoute
+  TermsAndConditionsRoute: typeof TermsAndConditionsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
+  FAQRoute: FAQRoute,
   HistoryRoute: HistoryRoute,
   LoginRoute: LoginRoute,
+  TermsAndConditionsRoute: TermsAndConditionsRoute,
 }
 
 export const routeTree = rootRoute
@@ -175,8 +229,10 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_protected",
+        "/FAQ",
         "/history",
-        "/login"
+        "/login",
+        "/terms-and-conditions"
       ]
     },
     "/": {
@@ -188,11 +244,17 @@ export const routeTree = rootRoute
         "/_protected/dashboard/"
       ]
     },
+    "/FAQ": {
+      "filePath": "FAQ.tsx"
+    },
     "/history": {
       "filePath": "history.tsx"
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/terms-and-conditions": {
+      "filePath": "terms-and-conditions.tsx"
     },
     "/_protected/dashboard/": {
       "filePath": "_protected/dashboard/index.tsx",
