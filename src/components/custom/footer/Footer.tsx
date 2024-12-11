@@ -20,7 +20,7 @@ export default function Footer() {
                 მომხმარების პირობები
               </a>
               <a href="#" className="block text-gray-600 hover:text-gray-900">
-                კონფიდენციალურობის პოლიტიკა
+                ფორუმი
               </a>
             </div>
           </div>

@@ -23,7 +23,7 @@ function RouteComponent() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="mt-2">
+      <main className="mt-2 mx-2 w-full">
         <SidebarTrigger />
         <div className="my-6">
           <Outlet />

@@ -1,4 +1,4 @@
-import { Calendar, Gauge, Home } from "lucide-react";
+import { Calendar, Car, Home } from "lucide-react";
 
 import {
   Sidebar,
@@ -21,7 +21,7 @@ const items = [
   {
     title: "ავტომობილების სია",
     url: "/dashboard/list",
-    icon: Gauge,
+    icon: Car,
   },
   {
     title: "კალენდარი",
